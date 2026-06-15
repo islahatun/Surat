@@ -67,9 +67,8 @@
 <body>
 
     <div class="header">
-        <h4>PEMERINTAH KABUPATEN MANOKWARI</h4>
-        <h4>DISTRIK MANOKWARI SELATAN</h4>
-        <h4>KELURAHAN SOWI</h4>
+        <h4>PEMERINTAH KABUPATEN SERANG</h4>
+        <h4>KELURAHAN SANGIANG</h4>
 
         <p>Jl. Trikora Sowi &nbsp;&nbsp;&nbsp; Telp. - &nbsp;&nbsp;&nbsp; Kode Pos :</p>
     </div>
@@ -85,90 +84,80 @@
     </div>
 
     <p>
-        Kepala Kelurahan Sowi, menerangkan dengan sebenarnya bahwa :
+        Kepala Desa Sangiang, menerangkan dengan sebenarnya bahwa :
     </p>
 
     <table>
         <tr>
             <td width="35%">Nama</td>
             <td width="5%">:</td>
-            <td>{{ $penduduk->nama }}</td>
+            <td>{{ $surat->penduduk->nama }}</td>
         </tr>
 
         <tr>
             <td>Jenis Kelamin</td>
             <td>:</td>
-            <td>{{ $penduduk->jenis_kelamin }}</td>
+            <td>{{ $surat->penduduk->jenis_kelamin }}</td>
         </tr>
 
         <tr>
             <td>Tempat Tanggal Lahir</td>
             <td>:</td>
             <td>
-                {{ $penduduk->tempat_lahir }},
-                {{ \Carbon\Carbon::parse($penduduk->tanggal_lahir)->translatedFormat('d F Y') }}
+                {{ $surat->penduduk->tempat_lahir }},
+                {{ \Carbon\Carbon::parse($surat->penduduk->tanggal_lahir)->translatedFormat('d F Y') }}
             </td>
         </tr>
 
         <tr>
             <td>Status</td>
             <td>:</td>
-            <td>{{ $penduduk->status_perkawinan }}</td>
+            <td>{{ $surat->penduduk->status_perkawinan }}</td>
         </tr>
 
         <tr>
             <td>Agama</td>
             <td>:</td>
-            <td>{{ $penduduk->agama }}</td>
+            <td>{{ $surat->penduduk->agama }}</td>
         </tr>
 
         <tr>
             <td>Pekerjaan</td>
             <td>:</td>
-            <td>{{ $penduduk->pekerjaan }}</td>
+            <td>{{ $surat->penduduk->pekerjaan }}</td>
         </tr>
 
         <tr>
             <td>Alamat</td>
             <td>:</td>
-            <td>{{ $penduduk->alamat }}</td>
-        </tr>
-
-        <tr>
-            <td>RT / RW</td>
-            <td>:</td>
-            <td>
-                {{ $penduduk->rt ?? '-' }}
-                /
-                {{ $penduduk->rw ?? '-' }}
-            </td>
+            <td>{{ $surat->penduduk->alamat }}</td>
         </tr>
 
         <tr>
             <td>Golongan Darah</td>
             <td>:</td>
-            <td>{{ $penduduk->golongan_darah ?? '-' }}</td>
+            <td>{{ $surat->penduduk->golongan_darah ?? '-' }}</td>
         </tr>
     </table>
 
     <br>
 
     <p style="text-align: justify">
-        Adalah benar-benar warga penduduk Kelurahan Sowi,
-        Distrik Manokwari Selatan, Kabupaten Manokwari.
+        Adalah benar-benar warga penduduk Desa Sangiang,
+        Kabupaten Serang.
         Mohon bantuannya agar yang bersangkutan dapat diberikan :
     </p>
 
     <p style="text-align:center; font-weight:bold;">
-        KARTU TANDA PENDUDUK (KTP) / KARTU KELUARGA
+        KARTU TANDA PENDUDUK (KTP)
     </p>
 
     <p>
-        Demikian agar maklum.
+        Demikian surat pengantar ini kami buat, untuk dapat dipergunakan sebagaimana mestinya.
     </p>
 
     <div class="ttd">
-        Dikeluarkan di : Manokwari
+        Dikeluarkan di : Sangiang
         <br>
 
         Pada tanggal :
@@ -176,15 +165,15 @@
 
         <br><br><br>
 
-        <strong>LURAH SOWI</strong>
+        <strong>Kepala Desa Sangiang</strong>
 
         <div class="nama-lurah">
-            {{ $lurah->nama ?? '(Nama Lurah)' }}
+            {{ $kepalaDesa->name ?? '(Nama Kepala Desa)' }}
         </div>
 
         <div>
             NIP :
-            {{ $lurah->nip ?? '' }}
+            {{ $kepalaDesa->nik ?? '' }}
         </div>
     </div>
 

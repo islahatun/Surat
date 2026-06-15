@@ -21,4 +21,8 @@ class Surat extends Model
     {
         return $this->belongsTo(Penduduk::class, 'id_penduduk');
     }
+    public function detailUsaha()
+{
+    return $this->hasOne(DetailSuratUsaha::class, 'id_surat');
+}
 }

@@ -82,76 +82,80 @@
     <div class="line"></div>
 
     <div class="nomor">
-        SURAT KETERANGAN USAHA
+        SURAT KETERANGAN DOMISILI
         <br>
         Nomor : {{ $surat->no_surat }}
     </div>
 
     <p>
-        Bahwa yang namanya tersebut di atas benar mempunyai/memiliki usaha dengan identitas usaha sebagai berikut:
-    </p>
-
-<table>
-        <tr width="35%">
-            <td>Nama</td>
-            <td>: {{ $surat->penduduk->nama }}</td>
-        </tr>
-        <tr>
-            <td>NIK</td>
-            <td>: {{ $surat->penduduk->nik }}</td>
-        </tr>
-        <tr>
-            <td>Tempat, Tanggal Lahir</td>
-            <td>: {{ $surat->penduduk->tempat_lahir }}, {{ \Carbon\Carbon::parse($surat->penduduk->tanggal_lahir)->format('d-m-Y') }}</td>
-        </tr>
-        <tr>
-            <td>Jenis Kelamin</td>
-            <td>: {{ $surat->penduduk->jenis_kelamin }}</td>
-        </tr>
-        <tr>
-            <td>Pekerjaan</td>
-            <td>: {{ $surat->penduduk->pekerjaan }}</td>
-        </tr>
-        <tr>
-            <td>Alamat Tempat Tinggal</td>
-            <td>: {{ $surat->penduduk->alamat }}</td>
-        </tr>
-    </table>
-
-    <br>
-
-    <p>
-       Bahwa yang namanya tersebut di atas benar mempunyai/memiliki usaha dengan identitas usaha sebagai berikut:
+        Yang bertanda tangan dibawah ini, Kepala Desa Sangiang, Kecamatan Mancak, Kabupaten Serang, Provinsi Banten, menerangkan dengan sebenarnya bahwa :
     </p>
 
     <table>
         <tr>
-            <td width="35%">Nama Perusahaan</td>
-            <td>: {{ $detailSuratUsaha->nama_perusahaan ?? 'N/A' }}</td>
+            <td width="30%">Nama</td>
+            <td width="5%">:</td>
+            <td>{{ $surat->penduduk->nama }}</td>
+        </tr>
+
+        <tr>
+            <td>Tempat, Tgl Lahir</td>
+            <td>:</td>
+            <td>
+                {{ $surat->penduduk->tempat_lahir }},
+                {{ \Carbon\Carbon::parse($surat->penduduk->tanggal_lahir)->format('d-m-Y') }}
+            </td>
         </tr>
         <tr>
-            <td>NPWP</td>
-            <td>: {{ $detailSuratUsaha->npwp_perusahaan ?? 'N/A' }}</td>
+            <td>Alamat</td>
+            <td>:</td>
+            <td>{{ $surat->penduduk->alamat }}</td>
+        </tr>
+
+        <tr>
+            <td>NIK</td>
+            <td>:</td>
+            <td>{{ $surat->penduduk->nik }}</td>
         </tr>
         <tr>
-            <td>Kegiatan Usaha</td>
-            <td>: {{ $detailSuratUsaha->kegiatan_usaha ?? 'N/A' }}</td>
+            <td>Status Perkawinan</td>
+            <td>:</td>
+            <td>
+    @switch($surat->penduduk->status_perkawinan)
+        @case('BK')
+            Belum Kawin
+            @break
+
+        @case('K')
+            Kawin
+            @break
+
+        @case('CH')
+            Cerai Hidup
+            @break
+
+        @case('CM')
+            Cerai Mati
+            @break
+
+        @default
+            -
+    @endswitch
+</td>
         </tr>
         <tr>
-            <td>Sarana Usaha</td>
-            <td>: {{ $detailSuratUsaha->sarana_usaha ?? 'N/A' }}</td>
-        </tr>
-        <tr>
-            <td>Alamat Tempat Usaha</td>
-            <td>: {{ $detailSuratUsaha->tempat_usaha ?? 'N/A' }}</td>
-        </tr>
-        <tr>
-            <td>Jumlah Modal Usaha</td>
-            <td>: Rp {{ number_format($detailSuratUsaha->modal_usaha ?? 0, 0, ',', '.') }}</td>
+            <td>Jenis Kelamin</td>
+            <td>:</td>
+            <td>{{ $surat->penduduk->jenis_kelamin }}</td>
         </tr>
     </table>
 
     <br>
+
+    <p style="text-align: justify">
+        Nama tersebut benar benar penduduk desa Sangiang, Kecamatan Mancak, Kabupaten Serang, Provinsi Banten, yang berdomisili di dilingkunagan lebih dari 6 bulan, dan surat keterangan ini dibuat untuk keperluan {{ $surat->keterangan }}.
+    </p>
+
     <p style="text-align: justify">
         Demikian surat keterangan ini kami buat dengan sebenarnya
         untuk dapat dipergunakan sebagaimana mestinya.

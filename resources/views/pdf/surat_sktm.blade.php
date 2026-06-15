@@ -10,15 +10,8 @@
             font-family: "Times New Roman", serif;
             font-size: 12pt;
             line-height: 1.6;
-            margin: 40px;
+            margin: 20px;
         }
-
-        .title {
-            text-align: center;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
         .nomor {
             text-align: center;
             margin-bottom: 30px;
@@ -59,16 +52,38 @@
             margin-top: 80px;
             font-size: 10pt;
         }
+        .line {
+            border-bottom: 3px solid black;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header {
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .header h3,
+        .header h4,
+        .header p {
+            margin: 0;
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="title">
-        SURAT KETERANGAN TIDAK MAMPU
+    <div class="header">
+        <h4>PEMERINTAH KABUPATEN SERANG</h4>
+        <h4>KELURAHAN SANGIANG</h4>
+
+        <p>Jl. Sangiang, Kecamatan Mancak, Kabupaten Serang, Provinsi Banten. Kode Pos: 42165.</p>
     </div>
+    <div class="line"></div>
 
     <div class="nomor">
+        SURAT KETERANGAN TIDAK MAMPU
+        <br>
         Nomor : {{ $surat->no_surat }}
     </div>
 
@@ -80,16 +95,13 @@
         <tr>
             <td width="30%">Nama</td>
             <td width="5%">:</td>
-            <td>{{ $kepalaDesa->nama ?? 'Nama Kepala Desa' }}</td>
+            <td>{{ $kepalaDesa->name ?? 'Nama Kepala Desa' }}</td>
         </tr>
 
         <tr>
-            <td>Tempat, Tgl Lahir</td>
+            <td>NIP</td>
             <td>:</td>
-            <td>
-                {{ $kepalaDesa->tempat_lahir ?? '-' }},
-                {{ $kepalaDesa->tanggal_lahir ?? '-' }}
-            </td>
+            <td>{{ $kepalaDesa->nik ?? 'NIP Kepala Desa' }}</td>
         </tr>
 
         <tr>
@@ -115,40 +127,38 @@
         <tr>
             <td width="30%">Nama</td>
             <td width="5%">:</td>
-            <td>{{ $penduduk->nama }}</td>
+            <td>{{ $surat->penduduk->nama }}</td>
         </tr>
 
         <tr>
             <td>Tempat, Tgl Lahir</td>
             <td>:</td>
             <td>
-                {{ $penduduk->tempat_lahir }},
-                {{ \Carbon\Carbon::parse($penduduk->tanggal_lahir)->format('d-m-Y') }}
+                {{ $surat->penduduk->tempat_lahir }},
+                {{ \Carbon\Carbon::parse($surat->penduduk->tanggal_lahir)->format('d-m-Y') }}
             </td>
         </tr>
         <tr>
             <td>Alamat</td>
             <td>:</td>
-            <td>{{ $penduduk->alamat }}</td>
+            <td>{{ $surat->penduduk->alamat }}</td>
         </tr>
 
         <tr>
             <td>NIK</td>
             <td>:</td>
-            <td>{{ $penduduk->nik }}</td>
+            <td>{{ $surat->penduduk->nik }}</td>
         </tr>
     </table>
 
     <br>
 
     <p style="text-align: justify">
-        Orang tersebut benar-benar penduduk Desa
-        {{ $penduduk->desa ?? '....................' }}
+        Orang tersebut benar-benar penduduk Desa Sangiang
         dan termasuk keluarga tidak mampu.
         Surat keterangan ini dipergunakan untuk
         <b>
-            "Syarat Kelengkapan Administrasi Calon Penerima
-            Beasiswa Bank Indonesia"
+            "{{ $surat->keterangan }}"
         </b>.
     </p>
 
@@ -159,7 +169,7 @@
 
     <div class="ttd">
         <div class="ttd-kanan">
-            {{ $penduduk->kota ?? 'Kota' }},
+            Dikeluarkan di: Sangiang
             {{ now()->translatedFormat('d F Y') }}
             <br><br>
 
@@ -168,19 +178,21 @@
             </span>
 
             <div class="nama-kades">
-                {{ $kepalaDesa->nama ?? 'Nama Kepala Desa' }}
+                {{ $kepalaDesa->name ?? 'Nama Kepala Desa' }}
+            </div>
+            <div>
+                NIP :
+                {{ $kepalaDesa->nik ?? 'NIP Kepala Desa' }} 
             </div>
         </div>
     </div>
 
     <div style="clear: both;"></div>
 
-    <div class="catatan">
-        <b>Catatan :</b><br>
-        Redaksi (isi keterangan) dapat ditambahkan menurut
-        kebutuhan setempat dengan tidak mengurangi contoh aslinya.
-    </div>
-
 </body>
 
 </html>
+
+
+
+

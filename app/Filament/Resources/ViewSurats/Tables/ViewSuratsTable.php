@@ -18,6 +18,7 @@ class ViewSuratsTable
     public static function configure(Table $table): Table
     {
         return $table
+        ->defaultSort('id', 'desc')
             ->columns([
                 TextColumn::make('no_surat')
                     ->label('No. Surat')
@@ -41,20 +42,25 @@ class ViewSuratsTable
                     ->sortable(),
 
                 TextColumn::make('status_approval')
-                    ->badge(),
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'approved' => 'success',
+                        'rejected' => 'danger',
+                    }),
             ])
             ->filters([
                 TrashedFilter::make(),
             ])
             ->recordActions([
-                ViewAction::make(),
+                // ViewAction::make(),
 
                 Action::make('pdf')
                     ->label('PDF')
                     ->icon('heroicon-o-document-arrow-down')
                     ->color('success')
                     ->url(fn ($record) => route('surat.pdf', $record))
-                    ->openUrlInNewTab(),
+                    ->openUrlInNewTab()
+                    ->visible(fn ($record) => $record->status_approval === 'approved'),
             ]);
     }
 }

@@ -1,79 +1,154 @@
+```blade
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
-    <title>Surat Pengantar Pindah</title>
+
     <style>
-        body { font-family: Arial, sans-serif; font-size: 12pt; }
-        .center { text-align: center; }
-        .line { margin-top: 20px; }
-        .content { margin-top: 30px; }
-        table { width: 100%; }
-        td { vertical-align: top; padding: 2px 0; }
+        body {
+            font-family: "Times New Roman", serif;
+            font-size: 12pt;
+            margin: 40px;
+        }
+
+        .header {
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .header h3,
+        .header h4,
+        .header p {
+            margin: 0;
+        }
+
+        .line {
+            border-bottom: 3px solid black;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .judul {
+            text-align: center;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .nomor {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            padding: 2px;
+            vertical-align: top;
+        }
+
+        .ttd {
+            width: 40%;
+            margin-left: auto;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .nama-lurah {
+            margin-top: 80px;
+            font-weight: bold;
+            text-decoration: underline;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="center">
-    <h3>SURAT PENGANTAR PINDAH</h3>
-    <h4>ANTAR KABUPATEN/KOTA ATAU ANTAR PROVINSI</h4>
-</div>
+    <div class="header">
+        <h4>PEMERINTAH KABUPATEN SERANG</h4>
+        <h4>KELURAHAN SANGIANG</h4>
 
-<p>Nomor : {{ $nomor_surat ?? '.........................' }}</p>
+        <p>Jl. Sangiang, Kecamatan Mancak, Kabupaten Serang, Provinsi Banten. Kode Pos: 42165.</p>
+    </div>
 
-<div class="content">
-    <p>Yang bertanda tangan di bawah ini, menerangkan Permohonan Pindah Penduduk WNI dengan data sebagai berikut :</p>
+    <div class="line"></div>
+
+    <div class="judul">
+        SURAT KETERANGAN
+    </div>
+
+    <div class="nomor">
+        NOMOR : {{ $surat->no_surat }}
+    </div>
+
+    <p>
+        Yang bertanda tangan di bawah ini, menerangkan Permohonan Pindah Penduduk dengan data sebagai berikut :
+    </p>
 
     <table>
         <tr>
             <td>1. NIK</td>
-            <td>: {{ $nik }}</td>
+            <td>: {{ $surat->penduduk->nik }}</td>
         </tr>
         <tr>
             <td>2. Nama Lengkap</td>
-            <td>: {{ $nama }}</td>
+            <td>: {{ $surat->penduduk->nama }}</td>
         </tr>
         <tr>
             <td>3. Nomor Kartu Keluarga</td>
-            <td>: {{ $no_kk }}</td>
+            <td>: {{ $surat->penduduk->no_kk }}</td>
         </tr>
         <tr>
             <td>4. Nama Kepala Keluarga</td>
-            <td>: {{ $kepala_keluarga }}</td>
+            <td>: {{ $surat->penduduk->nama}}</td>
         </tr>
         <tr>
             <td>5. Alamat Sekarang</td>
-            <td>: {{ $alamat_sekarang }}</td>
+            <td>: {{ $surat->penduduk->alamat }}</td>
         </tr>
         <tr>
             <td>6. Alamat Tujuan Pindah</td>
-            <td>: {{ $alamat_tujuan }}</td>
+            <td>: {{ $surat->alamat_baru }}</td>
         </tr>
         <tr>
             <td>7. Jumlah Keluarga Yang Pindah</td>
-            <td>: {{ $jumlah_keluarga }} Orang</td>
+            <td>: {{ $surat->jumlah_orang }} Orang</td>
         </tr>
     </table>
 
-    <p class="line">
-        Adapun Permohonan Pindah Penduduk WNI yang bersangkutan sebagaimana terlampir.
+    <br>
+
+    <p style="text-align: justify">
+        Adapun Permohonan Pindah Penduduk  yang bersangkutan sebagaimana terlampir.
     </p>
 
     <p>
-        Demikian Surat Pengantar Pindah ini dibuat agar digunakan sebagaimana mestinya.
+        Demikian surat pengantar ini kami buat, untuk dapat dipergunakan sebagaimana mestinya.
     </p>
 
-    <br><br>
+    <div class="ttd">
+        Dikeluarkan di : Sangiang
+        <br>
 
-    <div style="width: 100%; text-align: right;">
-        <p>{{ $kota ?? '............' }}, {{ $tanggal ?? '.....................' }}</p>
-        <p><b>Camat {{ $kecamatan ?? '.....................' }}</b></p>
+        Pada tanggal :
+        {{ now()->translatedFormat('d F Y') }}
 
         <br><br><br>
 
-        <p><b>( {{ $nama_camat ?? '.....................' }} )</b></p>
+        <strong>Kepala Desa Sangiang</strong>
+
+        <div class="nama-lurah">
+            {{ $kepalaDesa->name ?? '(Nama Kepala Desa)' }}
+        </div>
+
+        <div>
+            NIP :
+            {{ $kepalaDesa->nik ?? '' }}
+        </div>
     </div>
-</div>
 
 </body>
+
 </html>
