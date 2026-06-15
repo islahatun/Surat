@@ -17,6 +17,7 @@ class PenduduksTable
     public static function configure(Table $table): Table
     {
         return $table
+        ->defaultSort('id', 'desc')
             ->columns([
                 PendudukTextColumn::make('nik')->label('NIK')->searchable()->sortable(),
                 PendudukTextColumn::make('nama')->label('Nama')->searchable()->sortable(),

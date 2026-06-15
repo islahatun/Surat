@@ -25,6 +25,15 @@ class UserResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'model';
+        public static function shouldRegisterNavigation(): bool
+    {
+        $user = auth()->user();
+        return $user->role == '1';
+    }
+        public static function getNavigationLabel(): string
+    {
+        return 'Data User';
+    }
 
     public static function form(Schema $schema): Schema
     {

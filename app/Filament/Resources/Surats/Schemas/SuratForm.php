@@ -8,7 +8,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Set;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 
 class SuratForm
 {
@@ -56,7 +58,22 @@ class SuratForm
                                 $set('alamat', $penduduk->alamat);
                             }
                         }
-                    }),
+                    })
+                    ->afterStateHydrated(function ($state, callable $set) {
+                    if ($state) {
+                        $penduduk = Penduduk::find($state);
+                        if ($penduduk) {
+                            $set('nama', $penduduk->nama);
+                            $set('tempat_lahir', $penduduk->tempat_lahir);
+                            $set('tanggal_lahir', $penduduk->tanggal_lahir);
+                            $set('jenis_kelamin', $penduduk->jenis_kelamin);
+                            $set('agama', $penduduk->agama);
+                            $set('status_perkawinan', $penduduk->status_perkawinan);
+                            $set('pekerjaan', $penduduk->pekerjaan);
+                            $set('alamat', $penduduk->alamat);
+                        }
+                    }
+                }),
                 textInput::make('nama')->label('Nama')->disabled(),
                 textInput::make('tempat_lahir')->label('Tempat Lahir')->disabled(),
                 DatePicker::make('tanggal_lahir')->label('Tanggal Lahir')->disabled(),
@@ -65,32 +82,44 @@ class SuratForm
                 textInput::make('status_perkawinan')->label('Status Perkawinan')->disabled(),
                 textInput::make('pekerjaan')->label('Pekerjaan')->disabled(),
                 textInput::make('alamat')->label('Alamat')->disabled(),
-                TextInput::make('nama_perusahaan')
-                    ->label('Nama Perusahaan')
-                    ->visible(fn ($get) => $get('jenis_surat') == 6)
-                    ->required(fn ($get) => $get('jenis_surat') == 6),
+                Section::make('Detail Surat Usaha') 
+                ->relationship('detailUsaha') 
+                ->columnSpanFull()
+                ->visible(fn ($get) => $get('jenis_surat') == 6) 
+                ->schema([
+                    
+                    // --- BUNGKUS DENGAN GRID 2 KOLOM ---
+                    Grid::make(2)
+                        ->schema([
+                            TextInput::make('nama_perusahaan')
+                                ->label('Nama Perusahaan')
+                                ->required(),
 
-                TextInput::make('npwp_perusahaan')
-                    ->label('NPWP Perusahaan')
-                    ->visible(fn ($get) => $get('jenis_surat') == 6),
+                            TextInput::make('npwp_perusahaan')
+                                ->label('NPWP Perusahaan'),
+                            Textarea::make('kegiatan_usaha')
+                                ->label('Kegiatan Usaha')
+                                ->required()
+                                ->rows(1), 
 
-                Textarea::make('kegiatan_usaha')
-                    ->label('Kegiatan Usaha')
-                    ->visible(fn ($get) => $get('jenis_surat') == 6)
-                    ->required(fn ($get) => $get('jenis_surat') == 6),
+                            TextInput::make('sarana_usaha')
+                                ->label('Sarana Usaha')
+                                ->required(),
 
-                TextInput::make('sarana_usaha')
-                    ->label('Sarana Usaha')
-                    ->visible(fn ($get) => $get('jenis_surat') == 6),
+                            TextInput::make('tempat_usaha')
+                                ->label('Tempat Usaha')
+                                ->required(),
 
-                TextInput::make('tempat_usaha')
-                    ->label('Tempat Usaha')
-                    ->visible(fn ($get) => $get('jenis_surat') == 6),
+                            TextInput::make('modal_usaha')
+                                ->label('Modal Usaha')
+                                ->numeric()
+                                ->required(),
+                                ]),
+                    // --- AKHIR GRID ---
 
-                TextInput::make('modal_usaha')
-                    ->label('Modal Usaha')
-                    ->numeric()
-                    ->visible(fn ($get) => $get('jenis_surat') == 6),
+                    // Field berikutnya akan otomatis mengikuti layout di bawahnya
+                    
+                ]),            
                     
             ]);
     }

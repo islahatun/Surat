@@ -25,7 +25,11 @@ class ApprovalSuratResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'no_surat';
-
+    public static function shouldRegisterNavigation(): bool
+    {
+        $user = auth()->user();
+        return $user->role == '2';
+    }
     public static function getNavigationLabel(): string
     {
         return 'Approval Surat';

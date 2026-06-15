@@ -25,6 +25,11 @@ class SuratResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'surat';
+        public static function shouldRegisterNavigation(): bool
+    {
+        $user = auth()->user();
+        return $user->role == '1';
+    }
         public static function getNavigationGroup(): ?string
     {
         return 'Surat';

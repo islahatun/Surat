@@ -1,63 +1,95 @@
-```blade
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
+    <title>Surat Pengantar Kartu Keluarga</title>
 
     <style>
         body {
             font-family: "Times New Roman", serif;
-            font-size: 12pt;
-            margin: 40px;
+            font-size: 11pt; /* Diperkecil dari 12pt */
+            line-height: 1.5; /* Jarak baris dirapatkan agar lebih padat */
+            margin: 20px;
         }
 
-        .header {
+        /* Layout untuk Kop Surat Berlogo */
+        .kop-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 5px;
+        }
+        .kop-logo {
+            width: 15%;
+            vertical-align: middle;
             text-align: center;
-            line-height: 1.3;
         }
-
-        .header h3,
-        .header h4,
-        .header p {
+        .kop-logo img {
+            width: 65px; /* Disesuaikan agar seimbang dengan ukuran teks kop */
+            height: auto;
+        }
+        .kop-teks {
+            width: 85%;
+            text-align: center;
+            line-height: 1.2;
+            padding-right: 65px; /* Penyeimbang posisi tengah */
+        }
+        .kop-teks h4 {
+            font-size: 13pt; /* Diperkecil dari 14pt */
             margin: 0;
+            text-transform: uppercase;
+        }
+        .kop-teks p {
+            font-size: 9pt; /* Diperkecil dari 10pt */
+            margin: 0;
+            font-style: italic;
         }
 
         .line {
             border-bottom: 3px solid black;
-            margin-top: 10px;
-            margin-bottom: 20px;
+            border-top: 1px solid black;
+            height: 2px;
+            margin-top: 5px;
+            margin-bottom: 15px;
         }
 
         .judul {
             text-align: center;
             font-weight: bold;
             text-decoration: underline;
+            font-size: 13pt; /* Diperkecil dari 14pt */
+            text-transform: uppercase;
         }
 
         .nomor {
             text-align: center;
             margin-bottom: 20px;
+            font-size: 11pt;
         }
 
-        table {
+        table.isi-surat {
             width: 100%;
+            border-collapse: collapse;
+            margin-left: 15px;
+            font-size: 11pt;
         }
 
-        td {
-            padding: 2px;
+        table.isi-surat td {
+            padding: 3px 2px; /* Padding baris tabel dirapatkan */
             vertical-align: top;
         }
 
         .ttd {
             width: 40%;
             margin-left: auto;
-            margin-top: 40px;
+            margin-top: 30px;
             text-align: center;
+            line-height: 1.3;
+            font-size: 11pt;
         }
 
         .nama-lurah {
-            margin-top: 80px;
+            margin-top: 5px; /* Di-reset karena ruang kosong diisi QR Code */
             font-weight: bold;
             text-decoration: underline;
         }
@@ -66,32 +98,38 @@
 
 <body>
 
-    <div class="header">
-        <h4>PEMERINTAH KABUPATEN SERANG</h4>
-        <h4>KELURAHAN SANGIANG</h4>
-
-        <p>Jl. Sangiang, Kecamatan Mancak, Kabupaten Serang, Provinsi Banten. Kode Pos: 42165.</p>
-    </div>
-
+    <table class="kop-table">
+        <tr>
+            <td class="kop-logo">
+                <img src="{{ $_SERVER['DOCUMENT_ROOT'] . '/images/Logo_kabupaten_serang.png' }}" alt="Logo">
+            </td>
+            <td class="kop-teks">
+                <h4>PEMERINTAH KABUPATEN SERANG</h4>
+                <h4>KECAMATAN MANCAK</h4>
+                <h4 style="font-size: 15pt;">KELURAHAN SANGIANG</h4>
+                <p>Jl. Sangiang, Kecamatan Mancak, Kabupaten Serang, Provinsi Banten. Kode Pos: 42165.</p>
+            </td>
+        </tr>
+    </table>
     <div class="line"></div>
 
     <div class="judul">
-        SURAT KETERANGAN
+        SURAT PENGANTAR KARTU KELUARGA
     </div>
 
     <div class="nomor">
         NOMOR : {{ $surat->no_surat }}
     </div>
 
-    <p>
-        Kepala Desa Sangiang, menerangkan dengan sebenarnya bahwa :
+    <p style="text-align: justify; text-indent: 45px; margin: 0 0 10px 0;">
+        Kepala Desa Sangiang, Kecamatan Mancak, Kabupaten Serang, Provinsi Banten, menerangkan dengan sebenarnya bahwa :
     </p>
 
-    <table>
+    <table class="isi-surat">
         <tr>
-            <td width="35%">Nama</td>
-            <td width="5%">:</td>
-            <td>{{ $surat->penduduk->nama }}</td>
+            <td width="30%">Nama</td>
+            <td width="3%">:</td>
+            <td style="font-weight: bold;">{{ $surat->penduduk->nama }}</td>
         </tr>
 
         <tr>
@@ -101,7 +139,7 @@
         </tr>
 
         <tr>
-            <td>Tempat Tanggal Lahir</td>
+            <td>Tempat, Tanggal Lahir</td>
             <td>:</td>
             <td>
                 {{ $surat->penduduk->tempat_lahir }},
@@ -110,9 +148,17 @@
         </tr>
 
         <tr>
-            <td>Status</td>
+            <td>Status Perkawinan</td>
             <td>:</td>
-            <td>{{ $surat->penduduk->status_perkawinan }}</td>
+            <td>
+                @switch($surat->penduduk->status_perkawinan)
+                    @case('BK') Belum Kawin @break
+                    @case('K') Kawin @break
+                    @case('CH') Cerai Hidup @break
+                    @case('CM') Cerai Mati @break
+                    @default {{ $surat->penduduk->status_perkawinan }}
+                @endswitch
+            </td>
         </tr>
 
         <tr>
@@ -142,42 +188,41 @@
 
     <br>
 
-    <p style="text-align: justify">
-        Adalah benar-benar warga penduduk Desa Sangiang,
-        Kabupaten Serang.
-        Mohon bantuannya agar yang bersangkutan dapat diberikan :
+    <p style="text-align: justify; text-indent: 45px; margin: 0 0 5px 0;">
+        Adalah benar-benar warga penduduk Desa Sangiang, Kecamatan Mancak, Kabupaten Serang. Mohon bantuannya agar yang bersangkutan dapat diberikan pelayanan administrasi berupa pendaftaran/pembuatan:
     </p>
 
-    <p style="text-align:center; font-weight:bold;">
-        KARTU KELUARGA (KK)
+    <p style="text-align: center; font-weight: bold; font-size: 11pt; margin: 10px 0;">
+        " KARTU KELUARGA (KK) "
     </p>
 
-    <p>
-        Demikian surat pengantar ini kami buat, untuk dapat dipergunakan sebagaimana mestinya.
+    <p style="text-align: justify; text-indent: 45px; margin: 0 0 10px 0;">
+        Demikian surat pengantar ini kami buat dengan sebenarnya, untuk dapat dipergunakan sebagaimana mestinya.
     </p>
 
     <div class="ttd">
-        Dikeluarkan di : Sangiang
-        <br>
-
-        Pada tanggal :
-        {{ now()->translatedFormat('d F Y') }}
-
-        <br><br><br>
-
+        Dikeluarkan di : Sangiang<br>
+        Pada tanggal : {{ now()->translatedFormat('d F Y') }}
+        <br><br>
         <strong>Kepala Desa Sangiang</strong>
+
+        <div style="margin-top: 8px; margin-bottom: 8px;">
+            @if(isset($qrcodeBase64))
+                <img src="{{ $qrcodeBase64 }}" style="width: 75px; height: 75px;" alt="QR Code Verifikasi">
+            @else
+                <div style="height: 75px;"></div>
+            @endif
+        </div>
 
         <div class="nama-lurah">
             {{ $kepalaDesa->name ?? '(Nama Kepala Desa)' }}
         </div>
 
-        <div>
-            NIP :
-            {{ $kepalaDesa->nik ?? '' }}
+        <div style="font-size: 10pt; margin-top: 2px;">
+            NIP. {{ $kepalaDesa->nik ?? '----------------------' }}
         </div>
     </div>
 
 </body>
 
 </html>
-```

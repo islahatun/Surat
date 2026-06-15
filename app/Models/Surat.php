@@ -23,6 +23,6 @@ class Surat extends Model
     }
     public function detailUsaha()
 {
-    return $this->hasOne(DetailSuratUsaha::class, 'id_surat');
+    return $this->hasOne(DetailSuratUsaha::class, 'surat_id');
 }
 }

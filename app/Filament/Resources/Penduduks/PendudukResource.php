@@ -25,6 +25,16 @@ class PendudukResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'penduduk';
+        public static function shouldRegisterNavigation(): bool
+    {
+        $user = auth()->user();
+        return $user->role == '1';
+    }
+
+        public static function getNavigationLabel(): string
+    {
+        return 'Data Penduduk';
+    }
 
     public static function form(Schema $schema): Schema
     {

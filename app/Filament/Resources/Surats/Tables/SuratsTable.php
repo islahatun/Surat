@@ -17,6 +17,7 @@ class SuratsTable
     public static function configure(Table $table): Table
     {
         return $table
+        ->defaultSort('id', 'desc')
             ->columns([
                 TextColumn::make('no_surat')->label('No. Surat')->searchable()->sortable(),
                 TextColumn::make('jenis_surat')
