@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Filament\Resources\Penduduks\Schemas;
+
 use Filament\Infolists\Components\TextEntry as PendudukInfoItem;
 use Filament\Schemas\Schema;
-
 
 class PendudukInfolist
 {
@@ -12,8 +12,16 @@ class PendudukInfolist
         return $schema
             ->components([
                 PendudukInfoItem::make('nama')->label('Nama'),
-                PendudukInfoItem::make('nik')->label('NIK'),
-                PendudukInfoItem::make('no_kk')->label('No. KK'),
+                
+                // Gunakan formatStateUsing untuk memaksa cast ke string
+                PendudukInfoItem::make('nik')
+                    ->label('NIK')
+                    ->formatStateUsing(fn ($state) => sprintf('%.0f', $state)),
+                    
+                PendudukInfoItem::make('no_kk')
+                    ->label('No. KK')
+                    ->formatStateUsing(fn ($state) => sprintf('%.0f', $state)),
+                    
                 PendudukInfoItem::make('tempat_lahir')->label('Tempat Lahir'),
                 PendudukInfoItem::make('tanggal_lahir')->label('Tanggal Lahir'),
                 PendudukInfoItem::make('alamat')->label('Alamat'),

@@ -7,51 +7,56 @@ use App\Models\Surat; // Pastikan import model Surat Anda
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Carbon\Carbon;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 
 class RekapSuratDashboard extends BaseWidget
 {
-    // Mengatur agar widget otomatis reload/refresh setiap 10 detik (opsional)
+    use InteractsWithPageFilters;
     protected ?string $pollingInterval = '10s';
 
     protected function getStats(): array
     {
-        // 1. Ambil tahun saat ini untuk filter surat reject
         $tahunIni = Carbon::now()->year;
 
-        // 2. Hitung data dari database
-        $countPenduduk = Penduduk::count();
+
+        $countPenduduk = Penduduk::query();
         
-        // Sesuaikan 'status_approval' dan nilainya (misal: 'pending', 'approved', 'rejected') dengan database Anda
-        $suratPending = Surat::where('status_approval', 'pending')->count();
-        $suratApproved = Surat::where('status_approval', 'approved')->count();
-        $suratRejectedPertahun = Surat::where('status_approval', 'rejected')
-                                      ->whereYear('created_at', $tahunIni)
-                                      ->count();
+        $startDate = $this->filters['startDate'] ?? null;
+        $endDate = $this->filters['endDate'] ?? null;
+
+        $query = Surat::query();
+
+        if ($startDate) {
+            $query->whereDate('created_at', '>=', $startDate);
+            $countPenduduk->whereDate('created_at', '>=', $startDate);
+        }
+
+        if ($endDate) {
+            $query->whereDate('created_at', '<=', $endDate);
+            $countPenduduk->whereDate('created_at', '<=', $endDate);
+        }
 
         return [
-            // Card 1: Total Penduduk
-            Stat::make('Total Penduduk', $countPenduduk)
-                ->description('Semua penduduk terdaftar')
-                ->descriptionIcon('heroicon-m-users')
-                ->color('info'),
+            Stat::make('Total Penduduk', $countPenduduk->count())
+                ->color('secondary'),
+                
+            Stat::make('Surat KTP', (clone $query)->where('jenis_surat', 1)->count())
+                ->color('primary'),
 
-            // Card 2: Surat Belum Di-approve
-            Stat::make('Belum Di-approve', $suratPending)
-                ->description('Menunggu persetujuan')
-                ->descriptionIcon('heroicon-m-clock')
-                ->color('warning'),
-
-            // Card 3: Surat Sudah Di-approve
-            Stat::make('Sudah Di-approve', $suratApproved)
-                ->description('Surat telah selesai')
-                ->descriptionIcon('heroicon-m-check-circle')
+            Stat::make('Surat KK', (clone $query)->where('jenis_surat', 2)->count())
                 ->color('success'),
 
-            // Card 4: Surat Direject Tahun Ini
-            Stat::make('Surat Ditolak (' . $tahunIni . ')', $suratRejectedPertahun)
-                ->description('Total reject tahun ini')
-                ->descriptionIcon('heroicon-m-x-circle')
+            Stat::make('Surat Domisili', (clone $query)->where('jenis_surat', 3)->count())
+                ->color('info'),
+
+            Stat::make('SKTM', (clone $query)->where('jenis_surat', 4)->count())
+                ->color('warning'),
+
+            Stat::make('Surat Pindah', (clone $query)->where('jenis_surat', 5)->count())
                 ->color('danger'),
+
+            Stat::make('Surat Usaha', (clone $query)->where('jenis_surat', 6)->count())
+                ->color('gray'),
         ];
     }
 }

@@ -14,6 +14,9 @@ class Surat extends Model
         'id_penduduk',
         'no_surat',
         'jenis_surat',
+        'keterangan',
+        'jumlah_orang',
+        'alamat_baru',
         'status_approval',
     ];
 

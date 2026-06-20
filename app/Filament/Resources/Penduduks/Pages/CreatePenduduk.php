@@ -8,4 +8,5 @@ use Filament\Resources\Pages\CreateRecord;
 class CreatePenduduk extends CreateRecord
 {
     protected static string $resource = PendudukResource::class;
+    protected static bool $canCreateAnother = false;
 }

@@ -8,4 +8,5 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateViewSurat extends CreateRecord
 {
     protected static string $resource = ViewSuratResource::class;
+    protected static bool $canCreateAnother = false;
 }

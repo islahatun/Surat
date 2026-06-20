@@ -34,9 +34,6 @@ class SuratForm
                     ])
                     ->required()
                     ->live(),
-                TextInput::make('keterangan')->label('Keterangan')->visible(fn ($get) => $get('jenis_surat') == 6),
-                TextInput::make('jumlah_orang')->label('Jumlah Orang')->visible(fn ($get) => $get('jenis_surat') == 5),
-                TextInput::make('alamat_baru')->label('Alamat Baru')->visible(fn ($get) => $get('jenis_surat') == 5),
 
                 Select::make('id_penduduk')
                     ->label('Pilih Penduduk (NIK)')
@@ -74,6 +71,9 @@ class SuratForm
                         }
                     }
                 }),
+                TextInput::make('keterangan')->label('Keterangan'),
+                TextInput::make('jumlah_orang')->label('Jumlah Orang')->visible(fn ($get) => $get('jenis_surat') == 5),
+                TextInput::make('alamat_baru')->label('Alamat Baru')->visible(fn ($get) => $get('jenis_surat') == 5),
                 textInput::make('nama')->label('Nama')->disabled(),
                 textInput::make('tempat_lahir')->label('Tempat Lahir')->disabled(),
                 DatePicker::make('tanggal_lahir')->label('Tanggal Lahir')->disabled(),

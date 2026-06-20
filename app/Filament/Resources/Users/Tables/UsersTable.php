@@ -59,6 +59,12 @@ class UsersTable
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->bulkActions([
+            BulkActionGroup::make([
+                DeleteBulkAction::make(),
+            ])
+            ->label('Delete'),
+        ]);
     }
 }

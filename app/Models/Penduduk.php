@@ -28,6 +28,8 @@ class Penduduk extends Model
     {
         return [
             'tanggal_lahir' => 'date',
+            'nik' => 'string',
+            'no_kk' => 'string',
         ];
     }
 }

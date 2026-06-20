@@ -34,6 +34,10 @@ class SuratResource extends Resource
     {
         return 'Surat';
     }
+        public static function getNavigationLabel(): string
+    {
+        return 'Surat';
+    }
 
     public static function form(Schema $schema): Schema
     {

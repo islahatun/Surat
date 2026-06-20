@@ -14,8 +14,8 @@ class PendudukForm
     {
         return $schema
             ->components([
-                PendudukTextInput::make('no_kk')->label('No. KK')->numeric()->maxLength(16),
-                PendudukTextInput::make('nik')->label('NIK')->numeric()->maxLength(16)->unique(),
+                PendudukTextInput::make('no_kk')->label('No. KK')->maxLength(16),
+                PendudukTextInput::make('nik')->label('NIK')->maxLength(16)->unique(),
                 PendudukTextInput::make('nama')->label('Nama'),
                 PendudukTextInput::make('tempat_lahir')->label('Tempat Lahir'),
                 PendudukDatePicker::make('tanggal_lahir')->label('Tanggal Lahir'),

@@ -15,6 +15,7 @@ class DetailSuratUsaha extends Model
         'npwp_perusahaan',
         'sarana_usaha',
         'modal_usaha',
+        'kegiatan_usaha',
     ];
 
     public function surat()

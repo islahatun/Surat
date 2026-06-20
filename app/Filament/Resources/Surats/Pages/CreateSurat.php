@@ -10,6 +10,7 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateSurat extends CreateRecord
 {
     protected static string $resource = SuratResource::class;
+    protected static bool $canCreateAnother = false;
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
@@ -35,17 +36,24 @@ class CreateSurat extends CreateRecord
     }
     protected function afterCreate(): void
     {
-        $data = $this->form->getState();
-    
-        if (($data['jenis_surat'] ?? null) == 6) {
+        // Mengambil semua data form mentah tanpa disaring oleh skema database model utama
+        $rawData = $this->getMountedActionForm()?->getRawState() ?? request()->all();
+        
+        // Atau jika struktur di atas tidak terbaca di versi Filament Anda, gunakan ini:
+        // $rawData = request()->input('mountedActionsData.0') ?? request()->all();
+
+        // Hapus dd() ini jika data sudah berhasil muncul sesuai ekspektasi
+        // dd($rawData);
+
+        if (($rawData['jenis_surat'] ?? null) == 6) {
             DetailSuratUsaha::create([
                 'surat_id' => $this->record->id,
-                'nama_perusahaan' => $data['nama_perusahaan'] ?? null,
-                'npwp_perusahaan' => $data['npwp_perusahaan'] ?? null,
-                'kegiatan_usaha' => $data['kegiatan_usaha'] ?? null,
-                'sarana_usaha' => $data['sarana_usaha'] ?? null,
-                'tempat_usaha' => $data['tempat_usaha'] ?? null,
-                'modal_usaha' => $data['modal_usaha'] ?? null,
+                'nama_perusahaan' => $rawData['nama_perusahaan'] ?? null,
+                'npwp_perusahaan' => $rawData['npwp_perusahaan'] ?? null,
+                'kegiatan_usaha' => $rawData['kegiatan_usaha'] ?? null,
+                'sarana_usaha'  => $rawData['sarana_usaha'] ?? null,
+                'tempat_usaha'  => $rawData['tempat_usaha'] ?? null,
+                'modal_usaha'   => $rawData['modal_usaha'] ?? null,
             ]);
         }
     }
