@@ -36,14 +36,7 @@ class CreateSurat extends CreateRecord
     }
     protected function afterCreate(): void
     {
-        // Mengambil semua data form mentah tanpa disaring oleh skema database model utama
         $rawData = $this->getMountedActionForm()?->getRawState() ?? request()->all();
-        
-        // Atau jika struktur di atas tidak terbaca di versi Filament Anda, gunakan ini:
-        // $rawData = request()->input('mountedActionsData.0') ?? request()->all();
-
-        // Hapus dd() ini jika data sudah berhasil muncul sesuai ekspektasi
-        // dd($rawData);
 
         if (($rawData['jenis_surat'] ?? null) == 6) {
             DetailSuratUsaha::create([

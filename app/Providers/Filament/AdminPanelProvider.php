@@ -28,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin')
+            ->path('')
             ->login()
             ->brandLogo(asset('images/Logo_kabupaten_serang.png'))
             ->brandName('Sistem Informasi Surat Desa')

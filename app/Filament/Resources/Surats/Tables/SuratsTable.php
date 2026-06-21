@@ -10,6 +10,7 @@ use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Filters\SelectFilter; 
 use Filament\Tables\Table;
 
 class SuratsTable
@@ -17,7 +18,7 @@ class SuratsTable
     public static function configure(Table $table): Table
     {
         return $table
-        ->defaultSort('id', 'desc')
+            ->defaultSort('id', 'desc')
             ->columns([
                 TextColumn::make('no_surat')->label('No. Surat')->searchable()->sortable(),
                 TextColumn::make('jenis_surat')
@@ -33,10 +34,19 @@ class SuratsTable
                         6 => 'Surat Usaha',
                     ][$state] ?? '-'),
                 TextColumn::make('penduduk.nama')->label('Nama Penduduk')->searchable()->sortable(),
-        
             ])
             ->filters([
                 TrashedFilter::make(),
+                SelectFilter::make('jenis_surat')
+                    ->label('Jenis Surat')
+                    ->options([
+                        1 => 'Surat KTP',
+                        2 => 'Surat KK',
+                        3 => 'Surat Domisili',
+                        4 => 'SKTM',
+                        5 => 'Surat Pindah',
+                        6 => 'Surat Usaha',
+                    ]),
             ])
             ->recordActions([
                 ViewAction::make(),
@@ -50,10 +60,10 @@ class SuratsTable
                 ]),
             ])
             ->bulkActions([
-            BulkActionGroup::make([
-                DeleteBulkAction::make(),
-            ])
-            ->label('Delete'),
-        ]);
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ])
+                ->label('Delete'),
+            ]);
     }
 }

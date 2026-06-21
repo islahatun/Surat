@@ -25,7 +25,13 @@ class Surat extends Model
         return $this->belongsTo(Penduduk::class, 'id_penduduk');
     }
     public function detailUsaha()
-{
-    return $this->hasOne(DetailSuratUsaha::class, 'surat_id');
-}
+    {
+        return $this->hasOne(DetailSuratUsaha::class, 'surat_id');
+    }
+    protected static function booted(): void
+    {
+        static::deleting(function (Surat $surat) {
+            $surat->detailSuratUsaha()->delete();
+        });
+    }
 }
